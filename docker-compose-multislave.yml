@@ -4,11 +4,11 @@ services:
 
 ### PostgreSQL Container (Master) ####################################
 
-  zeroc0d3-master:
+  master:
     restart: always
-    build: ./zeroc0d3-master
+    build: ./master
     volumes:
-      - zeroc0d3-master:/var/lib/postgresql
+      - master:/var/lib/postgresql
     ports:
       - "5434:5434"
     environment:
@@ -23,15 +23,15 @@ services:
       - REPLICATION_SSLMODE=
 ### PostgreSQL Container (Slave) ####################################
 
-  zeroc0d3-slave1:
+  slave1:
     restart: always
-    build: ./zeroc0d3-slave
+    build: ./slave
     volumes:
-      - zeroc0d3-slave1:/var/lib/postgresql
+      - slave1:/var/lib/postgresql
     ports:
       - "5435:5435"
     links:
-      - zeroc0d3-master:master
+      - master:master
     environment:
       - DEBUG=false
       - REPLICATION_MODE=slave
@@ -41,15 +41,15 @@ services:
 
 ### PostgreSQL Container (Slave) ####################################
 
-  zeroc0d3-slave2:
+  slave2:
     restart: always
-    build: ./zeroc0d3-slave
+    build: ./slave
     volumes:
-      - zeroc0d3-slave2:/var/lib/postgresql
+      - slave2:/var/lib/postgresql
     ports:
       - "5436:5436"
     links:
-      - zeroc0d3-master:master
+      - master:master
     environment:
       - DEBUG=false
       - REPLICATION_MODE=slave
@@ -61,11 +61,11 @@ services:
 ### Volumes Setup ###########################################
 
 volumes:
-  zeroc0d3-master:
+  master:
     driver: "local"
-  zeroc0d3-slave1:
+  slave1:
     driver: "local"
-  zeroc0d3-slave2:
+  slave2:
       driver: "local"
   sessions:  ## nothing is connected to this (- ./data/sessions:/sessions)
     driver: "local"

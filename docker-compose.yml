@@ -4,18 +4,18 @@ services:
 
 ### PostgreSQL Container (Master) ####################################
 
-  zeroc0d3-master:
+  master:
     restart: always
-    build: ./zeroc0d3-master        
+    build: ./master
     volumes:
-      - zeroc0d3-master:/var/lib/postgresql
+      - master:/var/lib/postgresql
     ports:
       - "5434:5434"
     environment:
       - DEBUG=false
-      - DB_USER=zeroc0d3_user
-      - DB_PASS=zeroc0d3_password
-      - DB_NAME=zeroc0d3_dbname
+      - DB_USER=user
+      - DB_PASS=password
+      - DB_NAME=dbname
       - DB_UNACCENT=false
       - REPLICATION_MODE=master
       - REPLICATION_USER=replicator
@@ -24,15 +24,15 @@ services:
 
 ### PostgreSQL Container (Slave) ####################################
 
-  zeroc0d3-slave:
+  -slave:
     restart: always
-    build: ./zeroc0d3-slave
+    build: ./-slave
     volumes:
-      - zeroc0d3-slave:/var/lib/postgresql
+      - -slave:/var/lib/postgresql
     ports:
       - "5435:5435"
     links:
-      - zeroc0d3-master:master
+      - master:master
     environment:
       - DEBUG=false
       - REPLICATION_MODE=slave
@@ -44,9 +44,9 @@ services:
 ### Volumes Setup ###########################################
 
 volumes:
-  zeroc0d3-master:
+  master:
     driver: "local"
-  zeroc0d3-slave:
+  -slave:
     driver: "local"
   sessions:  ## nothing is connected to this (- ./data/sessions:/sessions)
     driver: "local"
