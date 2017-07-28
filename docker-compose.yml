@@ -24,11 +24,11 @@ services:
 
 ### PostgreSQL Container (Slave) ####################################
 
-  -slave:
+  slave:
     restart: always
-    build: ./-slave
+    build: ./slave
     volumes:
-      - -slave:/var/lib/postgresql
+      - slave:/var/lib/postgresql
     ports:
       - "5435:5435"
     links:
@@ -46,7 +46,7 @@ services:
 volumes:
   master:
     driver: "local"
-  -slave:
+  slave:
     driver: "local"
   sessions:  ## nothing is connected to this (- ./data/sessions:/sessions)
     driver: "local"
