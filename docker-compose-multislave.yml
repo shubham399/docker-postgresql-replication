@@ -58,14 +58,6 @@ services:
       - REPLICATION_USER=replicator
       - REPLICATION_PASS=replpassword
 
-### pgAdmin Container (Master) #######################################
-
-  pgadmin:
-    build: ./pgadmin
-    ports:
-      - "5051:5051"
-    links:
-      - zeroc0d3-master
 
 ### Volumes Setup ###########################################
   volumes:
